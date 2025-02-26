@@ -42,6 +42,7 @@ def find_largest_number_in_pdf(filename: str) -> Number | None:
 @click.command()
 @click.argument("filename", default="data/FY25 Air Force Working Capital Fund.pdf")
 def numinpdf(filename: str):
+
     # filename = "data/FY25 Air Force Working Capital Fund.pdf"
     # largest_number = find_largest_number_in_pdf(filename)
     largest_number = find_largest_number_in_pdf(filename)

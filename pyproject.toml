@@ -5,24 +5,20 @@ authors = [{ name = "AJ Pryor", email = "apryor6@gmail.com" }]
 description = "A submission for ConductorAI's challenge posted https://conductorai.notion.site/Take-Home-Project-028703f8766948e19430bd6cd5370345?pvs=4"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = [
-    "click>=8.1.8",
-    "pypdf2>=3.0.1",
-]
+dependencies = ["click>=8.1.8", "pypdf2>=3.0.1"]
 
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [dependency-groups]
-dev = [
-    "black>=25.1.0",
-    "pre-commit>=4.1.0",
- "pytest>=8.3.4",
-]
+dev = ["black>=25.1.0", "pre-commit>=4.1.0", "pytest>=8.3.4"]
 
 [project.scripts]
 numinpdf = "numinpdf.core:numinpdf"
 
 [tool.setuptools.packages.find]
 namespaces = false
+
+[tool.flake8]
+max-line-length = 110
