@@ -14,6 +14,10 @@ make data # helper command to fetch the PDF for the challenge
 uv run numinpdf "data/FY25 Air Force Working Capital Fund.pdf"
 ```
 
+## Running the test suite
+
+To run the tests, simply run `uv run pytest . ` (Note: at the time of this writing there is one failing test which highlights a weakness of the implementation that is also called out in the comments)
+
 ## Comments
 
 _I did not use LLMs here because the problem statement forbid use of external APIs. It is of course entirely possible to download and use these models offline, but given they are often 5-10GB in size I am intentionally not adding that heft into this example exercise plus it allows one to demonstrate a little more raw engineering versus "how easy" a code snippet using LLMs might be. I call this out because in the real world that is probably where we would start at the time of this writing, and in particular for data in tables where the context of what the units mean is far removed spatially from the text itself an LLM would really shine for understanding the context._
