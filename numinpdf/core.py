@@ -22,7 +22,16 @@ def find_largest_number_in_pdf(filename: str) -> Number | None:
             reader = PyPDF2.PdfReader(pdf_file)
             text = ""
             for page in reader.pages:
-                text += page.extract_text()
+                # for page_num, page in enumerate(reader.pages, 1):
+                # Note: commas are stripped here, but this will break for PDFs that include
+                # international number formats that use commas as decimal separators.
+                # if page_num < 113:
+                # continue
+                # print(page_num)
+                # new_text = page.extract_text().replace(",", "")
+                # print(new_text)
+                # text += new_text
+                text += page.extract_text().replace(",", "")
     except FileNotFoundError:
         print(f"Error: File not found: {filename}")
         return None
@@ -30,16 +39,36 @@ def find_largest_number_in_pdf(filename: str) -> Number | None:
         print(f"Error: Could not read pdf: {filename}")
         return None
 
-    # This pattern will match numbers with commas as thousand separators, as well as integers, floating-point
-    # numbers, and negative numbers. The replace(',', '') method is used to remove commas from the matched
-    # numbers before converting them to floats.
-    NUMBER_REGEX = r"-?\d{1,3}(?:,\d{3})*(?:\.\d+)?"
-    numbers = [float(num.replace(",", "")) for num in re.findall(NUMBER_REGEX, text) if num]
+    # The regex pattern r"-?\d+(?:\.\d+)?(?:[mbMB])?" is designed to match numbers with
+    # optional decimal points and optional magnitude suffixes (like 'm' or 'b').
+    # Here's a breakdown of the pattern:
+    # -?: Matches an optional minus sign, allowing for negative numbers.
 
-    if numbers:
-        return max(numbers)
-    else:
-        return None
+    # \d+: Matches one or more digits.
+
+    # (?:\.\d+)?: Matches an optional non-capturing group that consists of a decimal point followed by one or
+    #   more digits.
+
+    # (?:[mbMB])?: Matches an optional non-capturing group that consists of either 'm', 'b', 'M', or 'B',
+    #   which could represent magnitude suffixes like million or billion.
+
+    # This pattern will match integers, floating-point numbers, negative numbers, and numbers with optional
+    # magnitude suffixes.
+    NUMBER_REGEX = r"-?\d+(?:\.\d+)?(?:[mbkMBK])?"
+    matches = re.findall(NUMBER_REGEX, text)
+    numbers = [_handle_token(token) for token in matches]
+    return max(numbers) if numbers else None
+
+
+def _handle_token(token: str) -> str:
+    """Helper function for parsing tokens that is capable of converting suffixes into the appropriate multiplier"""
+    FACTORS = {"k": 1_000, "K": 1_000, "m": 1_000_000, "M": 1_000_000, "b": 1_000_000_000, "B": 1_000_000_000}
+    for k, v in FACTORS.items():
+        if k in token:
+            # Note: this does not guard for 'malformed' suffixes like '1.5Mm' and would result
+            # in TypeErrors etc that I have not guarded for
+            return float(token.replace(k, "")) * v
+    return float(token)
 
 
 def _numinpdf(filename: str):

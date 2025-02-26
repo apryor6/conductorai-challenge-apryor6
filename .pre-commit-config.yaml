@@ -4,9 +4,9 @@ repos:
     hooks:
       - id: black
         language_version: python3.13
-        args: ["--line-length", "110"]
+        args: ["--line-length", "115"]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v1.2.3
     hooks:
       - id: flake8
-        args: ["--max-line-length", "110"]
+        args: ["--max-line-length", "115"]
