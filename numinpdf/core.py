@@ -22,15 +22,6 @@ def find_largest_number_in_pdf(filename: str) -> Number | None:
             reader = PyPDF2.PdfReader(pdf_file)
             text = ""
             for page in reader.pages:
-                # for page_num, page in enumerate(reader.pages, 1):
-                # Note: commas are stripped here, but this will break for PDFs that include
-                # international number formats that use commas as decimal separators.
-                # if page_num < 113:
-                # continue
-                # print(page_num)
-                # new_text = page.extract_text().replace(",", "")
-                # print(new_text)
-                # text += new_text
                 text += page.extract_text().replace(",", "")
     except FileNotFoundError:
         print(f"Error: File not found: {filename}")
