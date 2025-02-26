@@ -39,10 +39,16 @@ def find_largest_number_in_pdf(filename: str) -> Number | None:
         return None
 
 
-@click.command()
-@click.argument("filename", default="data/FY25 Air Force Working Capital Fund.pdf")
-def numinpdf(filename: str):
+def _numinpdf(filename: str):
+    """
+    Finds the largest number in a PDF file.
 
+    Args:
+        filename (str): The path to the PDF file.
+
+    Returns:
+        None, prints the largest number found in the PDF, or a message if no number is found.
+    """
     # filename = "data/FY25 Air Force Working Capital Fund.pdf"
     # largest_number = find_largest_number_in_pdf(filename)
     largest_number = find_largest_number_in_pdf(filename)
@@ -51,3 +57,13 @@ def numinpdf(filename: str):
         print(f"The largest number in {filename} is: {largest_number}")
     else:
         print(f"No numbers found in {filename}.")
+
+
+@click.command()
+@click.argument("filename", default="data/FY25 Air Force Working Capital Fund.pdf")
+def numinpdf(filename: str):
+    """Click wrapper to create a CLI for main entrypoint
+
+    Usage: `numinpdf <filename>` (or with uv `uv run numinpdf <filename>`)
+    """
+    _numinpdf(filename)
