@@ -1,6 +1,9 @@
+"""Core numinpdf functionality"""
+
 from numbers import Number
-import PyPDF2
 import re
+
+import PyPDF2
 import click
 
 
@@ -49,14 +52,13 @@ def _numinpdf(filename: str):
     Returns:
         None, prints the largest number found in the PDF, or a message if no number is found.
     """
-    # filename = "data/FY25 Air Force Working Capital Fund.pdf"
-    # largest_number = find_largest_number_in_pdf(filename)
     largest_number = find_largest_number_in_pdf(filename)
 
     if largest_number is not None:
         print(f"The largest number in {filename} is: {largest_number}")
     else:
         print(f"No numbers found in {filename}.")
+    return largest_number
 
 
 @click.command()
